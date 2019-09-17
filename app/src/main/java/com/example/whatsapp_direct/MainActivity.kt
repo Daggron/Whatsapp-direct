@@ -13,40 +13,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var number : String = "919736879673"
-
-        if(intent.action == Intent.ACTION_PROCESS_TEXT){
-            number = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT).toString()
+        val number: String = if (intent.action == Intent.ACTION_PROCESS_TEXT) {
+            intent?.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT).toString()
+        } else if (intent.action == Intent.ACTION_DIAL ||
+            intent.action == Intent.ACTION_VIEW
+        ) {
+            intent?.data?.schemeSpecificPart.toString()
+        }else{
+            "9736879673"
         }
-
-        if(number.isDigitsOnly()){
-            startWhatsapp(number)
-        }
-        else{
-            Toast.makeText( this,"Please Select a number",Toast.LENGTH_SHORT).show()
-        }
-
+        startWhatsapp(number.trim())
     }
 
     private fun startWhatsapp(number: String) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setPackage("com.whatsapp")
-        val data : String = if(number[0] == '+'){
+        val i = Intent(Intent.ACTION_VIEW)
+        i.setPackage("com.whatsapp")
+        var data = if (number[0] == '+') {
             number.substring(1)
-        }else if(number.length==10){
-            "91"+number
-        }
-        else{
+        } else {
             number
         }
-
-        intent.data = Uri.parse("https://wa.me/$data")
-        if(packageManager.resolveActivity(intent,0)!= null){
-            startActivity(intent)
+        data = if (data.length == 10) {
+            "91$data"
+        } else {
+            data
         }
-        else{
-            Toast.makeText(this,"Please Install Whatsapp", Toast.LENGTH_SHORT).show()
+        i.data = Uri.parse("https://wa.me/$data")
+        if (packageManager.resolveActivity(i, 0) != null) {
+            startActivity(i)
+        } else {
+            Toast.makeText(this, "Please install Whatsapp!!", Toast.LENGTH_SHORT).show()
         }
-        finish()    
+        finish()
     }
 }
