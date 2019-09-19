@@ -13,7 +13,7 @@ Steps to use
 </h3>
 <ol>
 <li>
-Install the app from <a href="https://drive.google.com/file/d/1163hE-V0ttKY9IxCu1iO-kUVzjIRDP3_/view?usp=sharing" download>Here</a>
+Install the app from <a href="https://drive.google.com/uc?authuser=0&id=1163hE-V0ttKY9IxCu1iO-kUVzjIRDP3_&export=download" download>Here</a>
 </li>
 <li>
 Type the number whom you want to send the sms with country code
